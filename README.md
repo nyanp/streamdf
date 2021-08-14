@@ -1,6 +1,18 @@
 # streamdf
-lightweight, fast and robust columnar dataframe for data analytics with online update
+Streamdf is a lightweight data frame library built on top of the dictionary of numpy array,
+developed for Kaggle's time-series code competition.
 
+## Key Features
+
+- Fast and robust insertion
+    - The insertion of row can be performed with amortized constant time (much faster than `np.append`)
+    - Automatically falls back to the default value when an abnormal value is inserted
+- Time-travel
+    - Get the past state of the data as a slice of the original dataframe without copying
+- Null/empty-safe aggregations
+    - Provides a set of aggregation methods that can be safely called when an element has nan or is empty.
+- Columnar layout
+    - Internal data is stored in a simple columnar format, which is easier to use for analysis than numpy's structured array
 
 ### Example
 
@@ -17,13 +29,13 @@ sdf.extend({
     'y': 2
 })
 
+assert len(sdf) == len(df) + 1
+
 # access
 print(sdf['x'])
 
 # aggregate
 sdf.last_value('x')
-
-assert len(sdf) == len(df) + 1
 ```
 
 ```python
